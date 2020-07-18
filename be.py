@@ -23,7 +23,7 @@ class EchoClientProtocol:
         pass
 
 
-async def main(addr,port):
+async def status(addr,port):
     loop = asyncio.get_running_loop()
 
     on_con_lost = loop.create_future()
