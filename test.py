@@ -1,4 +1,4 @@
-from be import main
+from be import status
 import asyncio
-result = asyncio.run(main('example.com','19132'))
+result = asyncio.run(status('example.com','19132'))
 print(result)
