@@ -1,5 +1,4 @@
 import asyncio
-from async_timeout import timeout
 
 class EchoClientProtocol:
     def __init__(self, on_con_lost):
@@ -34,15 +33,13 @@ async def main(addr,port):
         remote_addr=(addr, port))
 
     try:
-        async with timeout(5):
-            data = await on_con_lost
-            # https://wiki.vg/Raknet_Protocol
-            # Server ID string format
-
-            # Edition (MCPE or MCEE for Education Edition)
-            edition, motd_1, protocol, version_name, player_count, max_players, unique_id, motd_2, \
-            game_mode, game_mode_num, port_v4, port_v6, nothing_here = data.split(';')
-            return(motd_1+' - '+motd_2 + '\nPlayers: '+player_count+'/'+max_players+'\nVersion: '+edition+version_name+'\nGamemode: '+game_mode) 
+        data = await asyncio.wait_for(on_con_lost, timeout=5)
+        # https://wiki.vg/Raknet_Protocol
+        # Server ID string format
+        # Edition (MCPE or MCEE for Education Edition)
+        edition, motd_1, protocol, version_name, player_count, max_players, unique_id, motd_2, \
+        game_mode, game_mode_num, port_v4, port_v6, nothing_here = data.split(';')
+        return(motd_1+' - '+motd_2 + '\nPlayers: '+player_count+'/'+max_players+'\nVersion: '+edition+version_name+'\nGamemode: '+game_mode) 
     except Exception:
         return('Requests timeout.')
     finally:
