@@ -44,6 +44,6 @@ async def main(addr,port):
             game_mode, game_mode_num, port_v4, port_v6, nothing_here = data.split(';')
             return(motd_1+' - '+motd_2 + '\nPlayers: '+player_count+'/'+max_players+'\nVersion: '+edition+version_name+'\nGamemode: '+game_mode) 
     except Exception:
-        pass  
+        return('Requests timeout.')
     finally:
         transport.close()
